@@ -25,7 +25,9 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: prod-build
-          path: build
+          path: ./
+      - name: See directory
+        run: ls
 
   deploy:
 
@@ -37,7 +39,8 @@ jobs:
         with:
           name: prod-build
           path: .
-
+      - name: See directory
+        run: ls
       - name: Add SSH Key To Runner
         env:
           SSH_PUBLIC: ${{secrets.SSH_PUBLIC}}
