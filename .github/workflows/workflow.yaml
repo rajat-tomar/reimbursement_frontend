@@ -50,5 +50,8 @@ jobs:
           echo "${{secrets.SSH_PRIVATE}}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
+      - name: Make a directory at remote
+        run: ssh -o StrictHostKeyChecking=no sanjay@34.93.91.239 "mkdir reimbursement-frontend"
+
       - name: Deploy production build
-        run: scp -o StrictHostKeyChecking=no -r build sanjay@34.93.91.239:/home/sanjay/reimbursement-frontend/build
+        run: scp -o StrictHostKeyChecking=no -r build sanjay@34.93.91.239:/home/sanjay/reimbursement-frontend"
