@@ -54,4 +54,4 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
 
       - name: Deploy production build
-        run: scp -o StrictHostKeyChecking=no build sanjay@34.93.91.239:/home/sanjay/reimbursement-frontend
+        run: scp -o StrictHostKeyChecking=no -r build sanjay@34.93.91.239:/home/sanjay/reimbursement-frontend
