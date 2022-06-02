@@ -54,4 +54,4 @@ jobs:
         run: ssh -o StrictHostKeyChecking=no sanjay@34.93.91.239 "mkdir reimbursement-frontend"
 
       - name: Deploy production build
-        run: scp -o StrictHostKeyChecking=no -r build sanjay@34.93.91.239:/home/sanjay/reimbursement-frontend"
+        run: scp -o StrictHostKeyChecking=no -r build sanjay@34.93.91.239:/home/sanjay/reimbursement-frontend
