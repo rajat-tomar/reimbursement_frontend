@@ -39,10 +39,7 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: build
-      - name: See directory
-        run: ls && cd build && ls
-      - name: Change build directory permission
-        run: chmod +777 build
+
       - name: Add SSH Key To Runner
         env:
           SSH_PUBLIC: ${{secrets.SSH_PUBLIC}}
