@@ -36,12 +36,9 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v3
-      - name: Make build folder
-        run: mkdir build
       - uses: actions/download-artifact@v1
         with:
           name: build
-          path: /build
       - name: See directory
         run: ls
       - name: Add SSH Key To Runner
