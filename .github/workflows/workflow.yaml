@@ -51,7 +51,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
 
       - name: Remove previous build
-        run: ssh -o StrictHostKeyChecking=no sanjay@34.93.91.239 "rm -rf reimbursement-frontend"
+        run: ssh -o StrictHostKeyChecking=no rajat@34.131.65.91 "rm -rf reimbursement-frontend"
 
       - name: Deploy production build
-        run: scp -o StrictHostKeyChecking=no -r build sanjay@34.93.91.239:/home/sanjay/reimbursement-frontend
+        run: scp -o StrictHostKeyChecking=no -r build rajat@34.131.65.91:/home/rajat/reimbursement-frontend
