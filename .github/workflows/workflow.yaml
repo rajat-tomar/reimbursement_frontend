@@ -50,4 +50,4 @@ jobs:
         run: ssh -o StrictHostKeyChecking=no reimbursement@${{secrets.REMOTE_INSTANCE_IP}} "rm -rf reimbursement-frontend"
 
       - name: Deploy production build
-        run: scp -o StrictHostKeyChecking=no -r build reimbursement@{{secrets.REMOTE_INSTANCE_IP}}:/home/reimbursement/reimbursement-frontend
+        run: scp -o StrictHostKeyChecking=no -r build reimbursement@${{secrets.REMOTE_INSTANCE_IP}}:/home/reimbursement/reimbursement-frontend
