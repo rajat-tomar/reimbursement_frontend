@@ -43,11 +43,11 @@ jobs:
       - name: Add SSH Key To Runner
         run: |
           mkdir ~/.ssh
-          echo "${{secrets.SSH_PRIVATE}}" > ~/.ssh/id_rsa
+          echo "${{secrets.REIMBURSEMENT_PRIVATE_KEY}}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
       - name: Remove previous build
-        run: ssh -o StrictHostKeyChecking=no reimbursement@${{secrets.REMOTE_INSTANCE_IP}} "rm -rf reimbursement-frontend"
+        run: ssh -o StrictHostKeyChecking=no reimbursement@${{secrets.FRONTEND_INSTANCE_IP}} "rm -rf reimbursement-frontend"
 
       - name: Deploy production build
-        run: scp -o StrictHostKeyChecking=no -r build reimbursement@${{secrets.REMOTE_INSTANCE_IP}}:/home/reimbursement/reimbursement-frontend
+        run: scp -o StrictHostKeyChecking=no -r build reimbursement@${{secrets.FRONTEND_INSTANCE_IP}}:/home/reimbursement/reimbursement-frontend
