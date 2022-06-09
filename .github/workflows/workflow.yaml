@@ -51,3 +51,6 @@ jobs:
 
       - name: Deploy production build
         run: scp -o StrictHostKeyChecking=no -r build reimbursement@${{secrets.FRONTEND_INSTANCE_IP}}:/home/reimbursement/reimbursement-frontend
+
+      -name: Restart the nginx server
+        run: ssh -o StrictHostKeyChecking=no reimbursement@${{secrets.FRONTEND_INSTANCE_IP}} "sudo systemctl restart nginx"
