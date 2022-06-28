@@ -1,8 +1,10 @@
+import Expense from "./components/expense/Expense";
+
 function App() {
   return (
-    <div className="App">
-      Hello Gaussb
-    </div>
+      <>
+          <Expense />
+      </>
   );
 }
 
