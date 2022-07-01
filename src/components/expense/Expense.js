@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {data} from "autoprefixer";
 
 const Expense = () => {
     const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -32,7 +33,19 @@ const Expense = () => {
                     amount: Number(amount)
                 })
             })
-                .then(response => console.log("response", response))
+                .then((response) => {
+                    if (response.status === 200) {
+                        setMessage({
+                            success: true, value: "expense created"
+                        })
+                        setShowMessage(true);
+                    } else {
+                        setMessage({
+                            success: false, value: "expense creation failed"
+                        })
+                        setShowMessage(true);
+                    }
+                })
         }
     }
 
