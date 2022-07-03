@@ -1,12 +1,11 @@
 import React, {useState} from "react";
-import {data} from "autoprefixer";
 
 const Expense = () => {
     const BASE_URL = process.env.REACT_APP_BASE_URL;
     const [amount, setAmount] = useState("");
     const [showMessage, setShowMessage] = useState(false);
     const [message, setMessage] = useState({
-        success: "", value: ""
+        success: false, value: ""
     });
 
     const handleAmountChange = (e) => {
@@ -36,15 +35,24 @@ const Expense = () => {
                 .then((response) => {
                     if (response.status === 200) {
                         setMessage({
-                            success: true, value: "expense created"
+                            success: true, value: "successfully created expense"
                         })
                         setShowMessage(true);
                     } else {
                         setMessage({
-                            success: false, value: "expense creation failed"
+                            success: false, value: "could not create expense  try again"
                         })
                         setShowMessage(true);
                     }
+                })
+                .catch((error) => {
+                    setMessage({
+                        success: false, value: error.message
+                    })
+                    setShowMessage(true);
+                })
+                .finally(() => {
+                    setAmount("");
                 })
         }
     }
