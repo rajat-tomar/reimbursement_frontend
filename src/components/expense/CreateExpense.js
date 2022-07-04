@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 
-const Expense = () => {
-    const BASE_URL = process.env.REACT_APP_BASE_URL;
+const CreateExpense = (props) => {
     const [amount, setAmount] = useState("");
     const [showMessage, setShowMessage] = useState(false);
     const [message, setMessage] = useState({
@@ -25,7 +24,7 @@ const Expense = () => {
 
     const createExpense = async (amount) => {
         if (valid(amount)) {
-            await fetch(`${BASE_URL}/expense`, {
+            await fetch(`${props.BASE_URL}/expense`, {
                 method: 'POST', headers: {
                     'Content-Type': 'application/json'
                 }, body: JSON.stringify({
@@ -40,7 +39,7 @@ const Expense = () => {
                         setShowMessage(true);
                     } else {
                         setMessage({
-                            success: false, value: "could not create expense  try again"
+                            success: false, value: "could not create expense try again"
                         })
                         setShowMessage(true);
                     }
@@ -68,4 +67,4 @@ const Expense = () => {
     </>)
 }
 
-export default Expense;
+export default CreateExpense;
