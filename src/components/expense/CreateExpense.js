@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 
 export const CreateExpense = (props) => {
-    const [amount, setAmount] = useState("");
+    const [amount, setAmount] = useState("")
     const [date, setDate] = useState("")
+    const [category, setCategory] = useState("")
     const [message, setMessage] = useState({
         success: false, value: ""
     });
@@ -20,6 +21,8 @@ export const CreateExpense = (props) => {
             alert("please enter a valid amount")
         } else if (empty(date)) {
             alert("please select a valid date")
+        } else if (empty(category)) {
+            alert("please select a valid category")
         } else {
             createExpense(amount)
             setAmount("")
@@ -32,7 +35,7 @@ export const CreateExpense = (props) => {
             method: 'POST', headers: {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify({
-                amount: Number(amount), expense_date: date
+                amount: Number(amount), expense_date: date, category: category
             })
         })
             .then((response) => {
@@ -74,6 +77,33 @@ export const CreateExpense = (props) => {
                             id="amount" type="text" value={amount} placeholder="Amount"
                             onChange={(e) => setAmount(e.target.value)}/>
                         <p className="text-red-500 text-xs italic">Please fill out this field.</p>
+                    </div>
+                </div>
+                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                           htmlFor="category">
+                        Category
+                    </label>
+                    <div className="relative">
+                        <select
+                            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="category" value={category} onChange={(e) => setCategory(e.target.value)}>
+                            <option value="">--select an option--</option>
+                            <option>Broadband</option>
+                            <option>Mobile Phone</option>
+                            <option>Learning and Development</option>
+                            <option>Fuel/Travel Allowance</option>
+                            <option>Tech Conferences</option>
+                            <option>Conference related travel and accommodations</option>
+                        </select>
+                        <div
+                            className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 20 20">
+                                <path
+                                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                            </svg>
+                        </div>
                     </div>
                 </div>
                 <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
