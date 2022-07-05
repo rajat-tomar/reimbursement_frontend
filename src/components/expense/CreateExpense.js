@@ -2,24 +2,28 @@ import React, {useState} from 'react';
 
 export const CreateExpense = (props) => {
     const [amount, setAmount] = useState("");
-    const [expenses, setExpenses] = useState([]);
+    const [date, setDate] = useState("")
     const [message, setMessage] = useState({
         success: false, value: ""
     });
     const [showMessage, setShowMessage] = useState(false);
 
-    const valid = (amount) => {
-        if (amount === "") {
-            return false;
+    const empty = (value) => {
+        if (value === "") {
+            return true;
         }
-        return true;
+        return false;
     }
     const submit = (e) => {
         e.preventDefault()
-        if (!valid(amount)) {
-            alert("amount is invalid")
+        if (empty(amount)) {
+            alert("please enter a valid amount")
+        } else if (empty(date)) {
+            alert("please select a valid date")
         } else {
             createExpense(amount)
+            setAmount("")
+            setDate("")
         }
     }
 
@@ -28,7 +32,7 @@ export const CreateExpense = (props) => {
             method: 'POST', headers: {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify({
-                amount: Number(amount)
+                amount: Number(amount), expense_date: date
             })
         })
             .then((response) => {
@@ -36,8 +40,6 @@ export const CreateExpense = (props) => {
                     setMessage({
                         success: true, value: "successfully created expense"
                     })
-                    setExpenses([...amount])
-                    console.log(expenses)
                     setShowMessage(true);
                 } else {
                     setMessage({
@@ -55,12 +57,10 @@ export const CreateExpense = (props) => {
     }
 
     return (<>
-
         {showMessage && (<div>
             <p className={message?.success ? 'text-green-400' : 'text-red-400'}>{message.value}</p>
             <button onClick={() => setShowMessage(false)}>X</button>
         </div>)}
-
         <div className="grid h-screen place-items-center">
             <form className="w-full max-w-lg" onSubmit={submit}>
                 <div className="flex flex-wrap -mx-3 mb-6">
@@ -74,6 +74,27 @@ export const CreateExpense = (props) => {
                             id="amount" type="text" value={amount} placeholder="Amount"
                             onChange={(e) => setAmount(e.target.value)}/>
                         <p className="text-red-500 text-xs italic">Please fill out this field.</p>
+                    </div>
+                </div>
+                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                           htmlFor="date">
+                        Date
+                    </label>
+                    <div className="relative">
+                        <input
+                            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="date" type="date" value={date} onChange={(e) => {
+                            setDate(e.target.value)
+                        }}/>
+                        <div
+                            className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 20 20">
+                                <path
+                                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                            </svg>
+                        </div>
                     </div>
                 </div>
                 <button type="submit">Create Expense</button>
