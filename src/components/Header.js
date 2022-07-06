@@ -31,18 +31,13 @@ export const Header = () => {
                         </div>
                         <div className="hidden sm:block sm:ml-6">
                             <div className="flex space-x-4">
-                                <Link to="create_expense" className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                                <Link to="create_expense"
+                                      className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
                                       aria-current="page">Create Expense</Link>
 
                                 <Link to="/expenses"
                                       className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Get
                                     Expenses</Link>
-
-                                <Link to="#"
-                                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Projects</Link>
-
-                                <Link to="#"
-                                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Calendar</Link>
                             </div>
                         </div>
                     </div>
@@ -62,18 +57,13 @@ export const Header = () => {
             </div>
             <div className="sm:hidden" id="mobile-menu">
                 <div className="px-2 pt-2 pb-3 space-y-1">
-                    <Link to="create_expense" className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
+                    <Link to="create_expense"
+                          className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
                           aria-current="page">Create Expense</Link>
 
                     <Link to="/expenses"
                           className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Get
                         Expenses</Link>
-
-                    <Link to="#"
-                          className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</Link>
-
-                    <Link to="#"
-                          className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Calendar</Link>
                 </div>
             </div>
         </nav>
