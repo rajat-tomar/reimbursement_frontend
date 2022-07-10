@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
+import { BASE_URL} from "../../constants";
 
-export const GetExpenses = (props) => {
+export const GetExpenses = () => {
     const [expenses, setExpenses] = useState([])
     const [category, setCategory] = useState("")
     const [dateRange, setDateRange] = useState({
@@ -24,7 +25,7 @@ export const GetExpenses = (props) => {
     }
 
     const getExpenses = () => {
-        fetch(`${props.BASE_URL}/expenses?category=${category}&startDate=${dateRange.startDate}&endDate=${dateRange.endDate}`)
+        fetch(`${BASE_URL}/expenses?category=${category}&startDate=${dateRange.startDate}&endDate=${dateRange.endDate}`)
             .then((response) => {
                 if (response.status === 200) {
                     return response.json()
@@ -76,9 +77,9 @@ export const GetExpenses = (props) => {
                 <div className="p-4 bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                     <div className="flex justify-between items-center mb-4">
                         <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Your Expenses</h5>
-                        <a href="#" className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
+                        <p className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
                             Amount
-                        </a>
+                        </p>
                     </div>
                     <div className="flow-root">
                         <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -105,7 +106,7 @@ export const GetExpenses = (props) => {
                                             <span>₹{expense.amount}</span>
                                             <br/>
                                             <button onClick={() => {
-                                                fetch(`${props.BASE_URL}/expense?id=${expense.id}`, {
+                                                fetch(`${BASE_URL}/expense?id=${expense.id}`, {
                                                     method: 'DELETE'
                                                 }).then((response) => {
                                                     if (response.status === 200) {

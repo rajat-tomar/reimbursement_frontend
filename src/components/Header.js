@@ -35,6 +35,10 @@ export const Header = () => {
                                       className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
                                       aria-current="page">Create Expense</Link>
 
+                                <Link to="login"
+                                      className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                                      aria-current="page">Login</Link>
+
                                 <Link to="/expenses"
                                       className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Get
                                     Expenses</Link>

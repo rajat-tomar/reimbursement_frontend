@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
+import { BASE_URL} from "../../constants";
 
-export const CreateExpense = (props) => {
+export const CreateExpense = () => {
     const [amount, setAmount] = useState("")
     const [date, setDate] = useState("")
     const [category, setCategory] = useState("")
@@ -10,10 +11,8 @@ export const CreateExpense = (props) => {
     const [showMessage, setShowMessage] = useState(false);
 
     const empty = (value) => {
-        if (value === "") {
-            return true;
-        }
-        return false;
+        return value === "";
+
     }
     const submit = (e) => {
         e.preventDefault()
@@ -31,7 +30,7 @@ export const CreateExpense = (props) => {
     }
 
     const createExpense = async (amount) => {
-        await fetch(`${props.BASE_URL}/expense`, {
+        await fetch(`${BASE_URL}/expense`, {
             method: 'POST', headers: {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify({
