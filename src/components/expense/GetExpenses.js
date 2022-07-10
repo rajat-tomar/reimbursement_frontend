@@ -37,7 +37,7 @@ export const GetExpenses = () => {
 
     useEffect(() => {
         getExpenses();
-    }, [])
+    })
 
     return (<>
         <form onSubmit={submit}>
