@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { BASE_URL} from "../../constants";
+import {BASE_URL} from "../../constants";
 
 export const CreateExpense = () => {
     const [amount, setAmount] = useState("")
@@ -30,15 +30,17 @@ export const CreateExpense = () => {
     }
 
     const createExpense = async (amount) => {
-        await fetch(`${BASE_URL}/expense`, {
+        fetch(`${BASE_URL}/expense`, {
             method: 'POST', headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
             }, body: JSON.stringify({
                 amount: Number(amount), expense_date: date, category: category
             })
         })
             .then((response) => {
-                if (response.status === 200) {
+                if (response.status === 201) {
                     setMessage({
                         success: true, value: "successfully created expense"
                     })
@@ -88,12 +90,12 @@ export const CreateExpense = () => {
                             className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="category" value={category} onChange={(e) => setCategory(e.target.value)}>
                             <option value="">--select an option--</option>
-                            <option>Broadband</option>
-                            <option>Mobile Phone</option>
-                            <option>Learning and Development</option>
                             <option>Fuel/Travel Allowance</option>
+                            <option>Learning and Development</option>
+                            <option>Mobile Phone</option>
+                            <option>Broadband</option>
+                            <option>Project</option>
                             <option>Tech Conferences</option>
-                            <option>Conference related travel and accommodations</option>
                         </select>
                         <div
                             className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
