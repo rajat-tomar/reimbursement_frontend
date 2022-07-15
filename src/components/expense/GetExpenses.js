@@ -1,12 +1,14 @@
 import {useEffect, useState} from "react";
-import { BASE_URL} from "../../constants";
+import {BASE_URL} from "../../constants";
 
 export const GetExpenses = () => {
     const [expenses, setExpenses] = useState([])
+    const [users, setUsers] = useState([])
     const [category, setCategory] = useState("")
     const [dateRange, setDateRange] = useState({
         startDate: "", endDate: ""
     })
+    const currentUser = JSON.parse(localStorage.getItem("user"));
 
     const handleChange = (e) => {
         const value = e.target.value
@@ -24,8 +26,28 @@ export const GetExpenses = () => {
         }
     }
 
+    const getUsers = () => {
+        fetch(`${BASE_URL}/users`, {
+            method: 'GET', headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+            }
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setUsers(data.data)
+            })
+    }
+
     const getExpenses = () => {
-        fetch(`${BASE_URL}/expenses?category=${category}&startDate=${dateRange.startDate}&endDate=${dateRange.endDate}`)
+        fetch(`${BASE_URL}/expenses?category=${category}&startDate=${dateRange.startDate}&endDate=${dateRange.endDate}`, {
+            method: 'GET', headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+            }
+        })
             .then((response) => {
                 if (response.status === 200) {
                     return response.json()
@@ -36,8 +58,16 @@ export const GetExpenses = () => {
     }
 
     useEffect(() => {
-        getExpenses();
-    })
+        let user = localStorage.getItem('user')
+        let role = JSON.parse(user).role
+        if (role === "admin" || role === "ca") {
+            getUsers()
+        }
+    }, [])
+
+    useEffect(() => {
+        getExpenses()
+    }, [])
 
     return (<>
         <form onSubmit={submit}>
@@ -54,26 +84,39 @@ export const GetExpenses = () => {
                                onChange={handleChange}/>
                     </div>
                 </div>
-
-
-                <label htmlFor="categories" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Select
-                    a
-                    Category</label>
-                <select id="categories"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value={category} onChange={(e) => setCategory(e.target.value)}>
-                    <option value="">Choose a category</option>
-                    <option>Broadband</option>
-                    <option>Mobile Phone</option>
-                    <option>Learning and Development</option>
-                    <option>Fuel/Travel Allowance</option>
-                    <option>Tech Conferences</option>
-                    <option>Conference related travel and accommodations</option>
-                </select>
-
+                <div className="contents">
+                    <>
+                        <label htmlFor="categories"
+                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Select
+                            a
+                            Category</label>
+                        <select id="categories"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                value={category} onChange={(e) => setCategory(e.target.value)}>
+                            <option value="">Choose a category</option>
+                            <option>Broadband</option>
+                            <option>Mobile Phone</option>
+                            <option>Learning and Development</option>
+                            <option>Fuel/Travel Allowance</option>
+                            <option>Tech Conferences</option>
+                            <option>Conference related travel and accommodations</option>
+                        </select>
+                    </>
+                    {currentUser.role === "admin" || currentUser.role === "ca" ? <>
+                        <label htmlFor="users"
+                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Select
+                            a
+                            User</label>
+                        <select id="users"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                value={category} onChange={() => ""}>
+                            <option value="">Choose a user</option>
+                            {users ? users.map((user, index) => {
+                                return <option key={index} value={user.id}>{user.name} - {user.email}</option>
+                            }) : null}
+                        </select></> : null}
+                </div>
                 <button type="submit">Submit</button>
-
-
                 <div className="p-4 bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                     <div className="flex justify-between items-center mb-4">
                         <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Your Expenses</h5>
@@ -84,7 +127,6 @@ export const GetExpenses = () => {
                     <div className="flow-root">
                         <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
                             {expenses ? expenses.map((expense, index) => {
-                                //format date
                                 const date = new Date(expense.expense_date)
                                 return (<li key={index} className="py-3 sm:py-4">
                                     <div className="flex items-center space-x-4">
@@ -101,15 +143,18 @@ export const GetExpenses = () => {
                                             </p>
                                         </div>
                                         <div
-                                            //inline-flex
                                             className="items-center text-base font-semibold text-gray-900 dark:text-white">
                                             <span>₹{expense.amount}</span>
                                             <br/>
                                             <button onClick={() => {
                                                 fetch(`${BASE_URL}/expense?id=${expense.id}`, {
-                                                    method: 'DELETE'
+                                                    method: 'DELETE', headers: {
+                                                        'Content-Type': 'application/json',
+                                                        'Accept': 'application/json',
+                                                        'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+                                                    }
                                                 }).then((response) => {
-                                                    if (response.status === 200) {
+                                                    if (response.status === 204) {
                                                         getExpenses();
                                                     }
                                                 })
