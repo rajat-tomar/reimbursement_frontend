@@ -66,7 +66,7 @@ jobs:
       - name: Restart the nginx server
         run: ssh -o StrictHostKeyChecking=no reimbursement@${{secrets.FRONTEND_INSTANCE_IP}} "sudo systemctl restart nginx"
 
-      -name: See remote directory
+      - name: See remote directory
         run: ssh -o StrictHostKeyChecking=no reimbursement@${{secrets.FRONTEND_INSTANCE_IP}} "ls -a"
 
       - name: See remote reimbursement-frontend directory
