@@ -12,7 +12,7 @@ const Logout = () => {
             localStorage.clear()
             navigate("/");
         }
-    }, []);
+    });
 
     return (<div>
 

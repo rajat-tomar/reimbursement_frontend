@@ -67,7 +67,7 @@ export const GetExpenses = () => {
 
     useEffect(() => {
         getExpenses()
-    }, [])
+    })
 
     return (<>
         <form onSubmit={submit}>
@@ -125,7 +125,7 @@ export const GetExpenses = () => {
                         </p>
                     </div>
                     <div className="flow-root">
-                        <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
+                        <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                             {expenses ? expenses.map((expense, index) => {
                                 const date = new Date(expense.expense_date)
                                 return (<li key={index} className="py-3 sm:py-4">

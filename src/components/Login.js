@@ -22,7 +22,7 @@ const Login = () => {
         });
 
         google.accounts.id.renderButton(document.getElementById("signInDiv"), {theme: "outline", size: "large"});
-    }, []);
+    });
 
     const loginUser = (userCredential) => {
         let userObject = jwt_decode(userCredential)
