@@ -18,13 +18,16 @@ jobs:
 
       - name: See directory
         run: ls
-        
+
       - name: Make env file and add secrets to it
         run: |
           touch .env
           echo "NODE_ENV=production" >> .env
           echo "REACT_APP_BASE_URL=${{secrets.BACKEND_URL}}" >> .env
           echo "REACT_APP_GOOGLE_CLIENT_ID=${{secrets.GOOGLE_CLIENT_ID}}" >> .env
+
+      - name: See directory
+        run: ls
 
       - name: Build
         run: CI=false npm run build --if-present
