@@ -44,6 +44,9 @@ jobs:
         with:
           name: build
 
+      - name: See directory
+        run: ls
+
       - name: Add SSH Key To Runner
         run: |
           mkdir ~/.ssh
