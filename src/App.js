@@ -1,5 +1,5 @@
 import {createContext, useReducer} from 'react';
-import {BrowserRouter as Router, Route, Routes,} from "react-router-dom";
+import {BrowserRouter as Router, Navigate, Route, Routes} from "react-router-dom";
 import Navbar from './components/Navbar';
 import {initialState, reducer} from './reducer/UseReducer';
 import Login from './components/Login';
@@ -12,6 +12,7 @@ export const UserContext = createContext(undefined);
 const Routing = ({state}) => {
     if (state) {
         return (<Routes>
+            <Route path="/" element={<Navigate to="/expenses" replace/>}/>
             <Route path="/logout" element={<Logout/>}/>
             <Route path="/create-expense" element={<CreateExpense/>}/>
             <Route path="/expenses" element={<GetExpenses/>}/>
