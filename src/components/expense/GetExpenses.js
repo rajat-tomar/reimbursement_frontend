@@ -42,9 +42,12 @@ export const GetExpenses = () => {
                 if (response.status === 200) {
                     return response.json()
                 }
-            }).then((data) => {
-            setExpenses(data.data)
-        })
+            })
+            .then((data) => {
+                if (data?.data?.length !== 0) {
+                    setExpenses(data.data)
+                }
+            })
     }
 
     useEffect(() => {
