@@ -39,6 +39,10 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: build
+          path: ./build
+
+      - name: List
+        run: ls -a
 
       - name: Add SSH Key To Runner
         run: |
