@@ -34,7 +34,7 @@ const Login = () => {
                 "Authorization": `Bearer ${userCredential}`
             }
         }
-        fetch(BASE_URL, options)
+        fetch(`${BASE_URL}/login`, options)
             .then((response) => {
                 if (response.status === 200) {
                     localStorage.setItem("id_token", userCredential);
