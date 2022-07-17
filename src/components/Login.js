@@ -2,6 +2,7 @@ import React, {useContext, useEffect} from 'react';
 import {UserContext} from '../App';
 import {useNavigate} from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
+import {BASE_URL} from "../constants";
 
 const Login = () => {
     const {state, dispatch} = useContext(UserContext);
@@ -26,7 +27,6 @@ const Login = () => {
 
     const loginUser = (userCredential) => {
         let userObject = jwt_decode(userCredential)
-        const url = "http://localhost:8080/login";
         const options = {
             method: "POST", headers: {
                 "Content-Type": "application/json",
@@ -34,7 +34,7 @@ const Login = () => {
                 "Authorization": `Bearer ${userCredential}`
             }
         }
-        fetch(url, options)
+        fetch(BASE_URL, options)
             .then((response) => {
                 if (response.status === 200) {
                     localStorage.setItem("id_token", userCredential);
