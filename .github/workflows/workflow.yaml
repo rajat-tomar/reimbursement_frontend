@@ -16,18 +16,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci --legacy-peer-deps
 
-      - name: See directory
-        run: ls -a
-
       - name: Make env file and add secrets to it
         run: |
           touch .env
           echo "NODE_ENV=production" >> .env
           echo "REACT_APP_BASE_URL=${{secrets.BACKEND_URL}}" >> .env
           echo "REACT_APP_GOOGLE_CLIENT_ID=${{secrets.GOOGLE_CLIENT_ID}}" >> .env
-
-      - name: See directory
-        run: ls -a
 
       - name: Build
         run: CI=false npm run build --if-present
@@ -37,8 +31,6 @@ jobs:
           name: build
           path: build
 
-      - name: See directory
-        run: ls -a
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -48,9 +40,6 @@ jobs:
         with:
           name: build
 
-      - name: See directory
-        run: ls -a
-
       - name: Add SSH Key To Runner
         run: |
           mkdir ~/.ssh
@@ -58,16 +47,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
 
       - name: Remove previous build
-        run: ssh -o StrictHostKeyChecking=no reimbursement@${{secrets.FRONTEND_INSTANCE_IP}} "rm -rf reimbursement-frontend"
+        run: ssh -o StrictHostKeyChecking=no reimbursement@${{secrets.FRONTEND_INSTANCE_IP}} "rm -rf reimbursement-fe"
 
       - name: Deploy production build
-        run: scp -o StrictHostKeyChecking=no -r build reimbursement@${{secrets.FRONTEND_INSTANCE_IP}}:/home/reimbursement/reimbursement-frontend
-
-      - name: Restart the nginx server
-        run: ssh -o StrictHostKeyChecking=no reimbursement@${{secrets.FRONTEND_INSTANCE_IP}} "sudo systemctl restart nginx"
-
-      - name: See remote directory
-        run: ssh -o StrictHostKeyChecking=no reimbursement@${{secrets.FRONTEND_INSTANCE_IP}} "ls -a"
-
-      - name: See remote reimbursement-frontend directory
-        run: ssh -o StrictHostKeyChecking=no reimbursement@${{secrets.FRONTEND_INSTANCE_IP}} "ls -a reimbursement-frontend"
+        run: scp -o StrictHostKeyChecking=no -r build reimbursement@${{secrets.FRONTEND_INSTANCE_IP}}:/home/reimbursement/reimbursement-fe
