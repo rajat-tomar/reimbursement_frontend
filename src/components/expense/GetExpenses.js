@@ -25,7 +25,9 @@ export const GetExpenses = () => {
             }
         }).then((response) => response.json())
             .then((data) => {
-                setUsers(data.data)
+                if (data?.length > 0) {
+                    setUsers(data)
+                }
             })
     }
 
@@ -42,8 +44,10 @@ export const GetExpenses = () => {
                     return response.json()
                 }
             }).then((data) => {
-            if (data?.data?.length !== 0) {
-                setExpenses(data.data)
+            if (data?.length > 0) {
+                setExpenses(data)
+            } else {
+                setExpenses([])
             }
         })
     }
@@ -146,9 +150,9 @@ export const GetExpenses = () => {
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 value={userId} onChange={(e) => setUserId(e.target.value)}>
                             <option value="">Choose a user</option>
-                            {users ? users.map((user, index) => {
+                            {users && users.map((user, index) => {
                                 return <option key={index} value={user.id}>{user.name} - {user.email}</option>
-                            }) : null}
+                            })}
                         </select>
                     </> : null}
                 </div>
@@ -190,7 +194,6 @@ export const GetExpenses = () => {
                                                     onClick={() => handleExpenseDelete(expense.id)}>
                                                     Delete
                                                 </button>)}
-
                                             </> : (<span
                                                 className={`${expense.status === "approved" ? "text-green-600" : "text-red-600"}`}>
                                                     {expense.status}

@@ -1,12 +1,10 @@
 import React, {useContext, useEffect} from 'react';
 import {UserContext} from '../App';
-import {useNavigate} from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import {BASE_URL} from "../constants";
 
 const Login = () => {
     const {state, dispatch} = useContext(UserContext);
-    const navigate = useNavigate();
 
     const handleCallbackResponse = (response) => {
         if (response?.credential) {
@@ -45,11 +43,10 @@ const Login = () => {
             })
             .then((data) => {
                 const user = {
-                    "name": userObject?.name, "email": userObject?.email, "role": data?.data?.role
+                    "name": userObject?.name, "email": userObject?.email, "role": data
                 }
                 localStorage.setItem("user", JSON.stringify(user));
                 dispatch({type: "USER", payload: true})
-                navigate('/expenses');
             })
     }
 
