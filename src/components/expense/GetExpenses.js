@@ -23,8 +23,7 @@ export const GetExpenses = () => {
                 'Accept': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("id_token")}`
             }
-        })
-            .then((response) => response.json())
+        }).then((response) => response.json())
             .then((data) => {
                 setUsers(data.data)
             })
@@ -42,12 +41,55 @@ export const GetExpenses = () => {
                 if (response.status === 200) {
                     return response.json()
                 }
+            }).then((data) => {
+            if (data?.data?.length !== 0) {
+                setExpenses(data.data)
+            }
+        })
+    }
+
+    const handleExpenseDelete = (id) => {
+        fetch(`${BASE_URL}/expense?id=${id}`, {
+            method: 'DELETE', headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+            }
+        }).then((response) => {
+            if (response.status === 204) {
+                // getExpenses();
+            }
+        })
+    }
+
+    const handleExpenseApprove = (id) => {
+        fetch(`${BASE_URL}/expense?id=${id}`, {
+            method: 'PUT', headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+            }, body: JSON.stringify({
+                status: "approved"
             })
-            .then((data) => {
-                if (data?.data?.length !== 0) {
-                    setExpenses(data.data)
-                }
+        }).then((response) => {
+            if (response.status === 204) {
+            }
+        })
+    }
+
+    const handleExpenseReject = (id) => {
+        fetch(`${BASE_URL}/expense?id=${id}`, {
+            method: 'PUT', headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+            }, body: JSON.stringify({
+                status: "rejected"
             })
+        }).then((response) => {
+            if (response.status === 204) {
+            }
+        })
     }
 
     useEffect(() => {
@@ -107,11 +149,12 @@ export const GetExpenses = () => {
                             {users ? users.map((user, index) => {
                                 return <option key={index} value={user.id}>{user.name} - {user.email}</option>
                             }) : null}
-                        </select></> : null}
+                        </select>
+                    </> : null}
                 </div>
                 <div className="p-4 bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                     <div className="flex justify-between items-center mb-4">
-                        <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Your Expenses</h5>
+                        <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Expenses</h5>
                         <p className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
                             Amount
                         </p>
@@ -122,10 +165,6 @@ export const GetExpenses = () => {
                                 const date = new Date(expense.expense_date)
                                 return (<li key={index} className="py-3 sm:py-4">
                                     <div className="flex items-center space-x-4">
-                                        {/*<div className="flex-shrink-0">*/}
-                                        {/*<img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-1.jpg"*/}
-                                        {/*     alt="Neil image"/>*/}
-                                        {/*</div>*/}
                                         <div className="flex-1 min-w-0">
                                             <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                                                 {expense.category}
@@ -138,22 +177,24 @@ export const GetExpenses = () => {
                                             className="items-center text-base font-semibold text-gray-900 dark:text-white">
                                             <span>₹{expense.amount}</span>
                                             <br/>
-                                            <button onClick={() => {
-                                                fetch(`${BASE_URL}/expense?id=${expense.id}`, {
-                                                    method: 'DELETE', headers: {
-                                                        'Content-Type': 'application/json',
-                                                        'Accept': 'application/json',
-                                                        'Authorization': `Bearer ${localStorage.getItem("id_token")}`
-                                                    }
-                                                }).then((response) => {
-                                                    if (response.status === 204) {
-                                                        getExpenses();
-                                                    }
-                                                })
-                                            }}
-                                                    className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
-                                                Delete
-                                            </button>
+                                            {(expense.status === "pending") ? <>
+                                                {(currentUser.role === "admin" || currentUser.role === "ca") ? <>
+                                                    <button className="text-sm text-green-600 hover:underline"
+                                                            onClick={() => handleExpenseApprove(expense.id)}>Approve
+                                                    </button>
+                                                    <button className="text-sm text-red-600 hover:underline"
+                                                            onClick={() => handleExpenseReject(expense.id)}>Reject
+                                                    </button>
+                                                </> : (<button
+                                                    className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
+                                                    onClick={() => handleExpenseDelete(expense.id)}>
+                                                    Delete
+                                                </button>)}
+
+                                            </> : (<span
+                                                className={`${expense.status === "approved" ? "text-green-600" : "text-red-600"}`}>
+                                                    {expense.status}
+                                                </span>)}
                                         </div>
                                     </div>
                                 </li>)

@@ -60,76 +60,77 @@ export const CreateExpense = () => {
             })
     }
 
-    return (<>
-        {showMessage && (<div>
-            <p className={message?.success ? 'text-green-400' : 'text-red-400'}>{message.value}</p>
-            <button onClick={() => setShowMessage(false)}>X</button>
-        </div>)}
-        <div className="grid h-screen place-items-center">
-            <form className="w-full max-w-lg" onSubmit={submit}>
-                <div className="flex flex-wrap -mx-3 mb-6">
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+    return (
+        <>
+            {showMessage && (<div>
+                <p className={message?.success ? 'text-green-400' : 'text-red-400'}>{message.value}</p>
+                <button onClick={() => setShowMessage(false)}>X</button>
+            </div>)}
+            <div className="grid h-screen place-items-center">
+                <form className="w-full max-w-lg" onSubmit={submit}>
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                   htmlFor="amount">
+                                Amount
+                            </label>
+                            <input
+                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                id="amount" type="text" value={amount} placeholder="Amount"
+                                onChange={(e) => setAmount(e.target.value)}/>
+                            <p className="text-red-500 text-xs italic">Please fill out this field.</p>
+                        </div>
+                    </div>
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                               htmlFor="amount">
-                            Amount
+                               htmlFor="category">
+                            Category
                         </label>
-                        <input
-                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                            id="amount" type="text" value={amount} placeholder="Amount"
-                            onChange={(e) => setAmount(e.target.value)}/>
-                        <p className="text-red-500 text-xs italic">Please fill out this field.</p>
-                    </div>
-                </div>
-                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                           htmlFor="category">
-                        Category
-                    </label>
-                    <div className="relative">
-                        <select
-                            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="category" value={category} onChange={(e) => setCategory(e.target.value)}>
-                            <option value="">--select an option--</option>
-                            <option>Fuel/Travel Allowance</option>
-                            <option>Learning and Development</option>
-                            <option>Mobile Phone</option>
-                            <option>Broadband</option>
-                            <option>Project</option>
-                            <option>Tech Conferences</option>
-                        </select>
-                        <div
-                            className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                 viewBox="0 0 20 20">
-                                <path
-                                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                            </svg>
+                        <div className="relative">
+                            <select
+                                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                id="category" value={category} onChange={(e) => setCategory(e.target.value)}>
+                                <option value="">--select an option--</option>
+                                <option>Fuel/Travel Allowance</option>
+                                <option>Learning and Development</option>
+                                <option>Mobile Phone</option>
+                                <option>Broadband</option>
+                                <option>Project</option>
+                                <option>Tech Conferences</option>
+                            </select>
+                            <div
+                                className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 20 20">
+                                    <path
+                                        d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                                </svg>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                           htmlFor="date">
-                        Date
-                    </label>
-                    <div className="relative">
-                        <input
-                            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="date" type="date" value={date} onChange={(e) => {
-                            setDate(e.target.value)
-                        }}/>
-                        <div
-                            className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                 viewBox="0 0 20 20">
-                                <path
-                                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                            </svg>
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                               htmlFor="date">
+                            Date
+                        </label>
+                        <div className="relative">
+                            <input
+                                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                id="date" type="date" value={date} onChange={(e) => {
+                                setDate(e.target.value)
+                            }}/>
+                            <div
+                                className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 20 20">
+                                    <path
+                                        d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                                </svg>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <button type="submit">Create Expense</button>
-            </form>
-        </div>
-    </>)
+                    <button type="submit">Create Expense</button>
+                </form>
+            </div>
+        </>)
 }
