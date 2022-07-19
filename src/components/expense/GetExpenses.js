@@ -38,12 +38,11 @@ export const GetExpenses = () => {
                 'Accept': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("id_token")}`
             }
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json()
-                }
-            }).then((data) => {
+        }).then((response) => {
+            if (response.status === 200) {
+                return response.json()
+            }
+        }).then((data) => {
             if (data?.length > 0) {
                 setExpenses(data)
             } else {
@@ -60,13 +59,26 @@ export const GetExpenses = () => {
                 'Authorization': `Bearer ${localStorage.getItem("id_token")}`
             }
         }).then((response) => {
-            if (response.status === 204) {
-                // getExpenses();
+        })
+    }
+
+    const createReimbursement = (amount, expenseId) => {
+        fetch(`${BASE_URL}/reimbursement`, {
+            method: 'POST', headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+            }, body: JSON.stringify({
+                amount: amount, user_id: Number(userId), expense_id: expenseId
+            })
+        }).then((response) => {
+            if (response.status === 201) {
             }
         })
     }
 
-    const handleExpenseApprove = (id) => {
+    const handleExpenseApprove = (e, id, amount) => {
+        e.preventDefault();
         fetch(`${BASE_URL}/expense?id=${id}`, {
             method: 'PUT', headers: {
                 'Content-Type': 'application/json',
@@ -77,11 +89,21 @@ export const GetExpenses = () => {
             })
         }).then((response) => {
             if (response.status === 204) {
+                setExpenses(expenses.map((expense) => {
+                    if (expense.id === id) {
+                        expense.status = "approved"
+                    }
+                    return expense
+                }));
+                createReimbursement(amount, id)
+            } else {
+                alert("could not approve expense")
             }
         })
     }
 
-    const handleExpenseReject = (id) => {
+    const handleExpenseReject = (e, id) => {
+        e.preventDefault();
         fetch(`${BASE_URL}/expense?id=${id}`, {
             method: 'PUT', headers: {
                 'Content-Type': 'application/json',
@@ -92,6 +114,12 @@ export const GetExpenses = () => {
             })
         }).then((response) => {
             if (response.status === 204) {
+                setExpenses(expenses.map((expense) => {
+                    if (expense.id === id) {
+                        expense.status = "rejected"
+                    }
+                    return expense
+                }));
             }
         })
     }
@@ -184,10 +212,10 @@ export const GetExpenses = () => {
                                             {(expense.status === "pending") ? <>
                                                 {(currentUser.role === "admin" || currentUser.role === "ca") ? <>
                                                     <button className="text-sm text-green-600 hover:underline"
-                                                            onClick={() => handleExpenseApprove(expense.id)}>Approve
+                                                            onClick={(e) => handleExpenseApprove(e, expense.id, expense.amount)}>Approve
                                                     </button>
                                                     <button className="text-sm text-red-600 hover:underline"
-                                                            onClick={() => handleExpenseReject(expense.id)}>Reject
+                                                            onClick={(e) => handleExpenseReject(e, expense.id)}>Reject
                                                     </button>
                                                 </> : (<button
                                                     className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
