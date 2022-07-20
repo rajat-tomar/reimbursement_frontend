@@ -125,9 +125,7 @@ export const GetExpenses = () => {
     }
 
     useEffect(() => {
-        let user = localStorage.getItem('user')
-        let role = JSON.parse(user).role
-        if (role === "admin" || role === "ca") {
+        if (currentUser.role === "admin" || currentUser.role === "ca") {
             getUsers()
         }
     }, [])
@@ -169,7 +167,7 @@ export const GetExpenses = () => {
                             <option>Conference related travel and accommodations</option>
                         </select>
                     </>
-                    {currentUser.role === "admin" || currentUser.role === "ca" ? <>
+                    {(currentUser.role === "admin" || currentUser.role === "ca") && <>
                         <label htmlFor="users"
                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Select
                             a
@@ -182,7 +180,7 @@ export const GetExpenses = () => {
                                 return <option key={index} value={user.id}>{user.name} - {user.email}</option>
                             })}
                         </select>
-                    </> : null}
+                    </>}
                 </div>
                 <div className="p-4 bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                     <div className="flex justify-between items-center mb-4">
