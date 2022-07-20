@@ -62,14 +62,14 @@ export const GetExpenses = () => {
         })
     }
 
-    const createReimbursement = (amount, expenseId) => {
+    const createReimbursement = (amount, expenseId, category) => {
         fetch(`${BASE_URL}/reimbursement`, {
             method: 'POST', headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("id_token")}`
             }, body: JSON.stringify({
-                amount: amount, user_id: Number(userId), expense_id: expenseId
+                amount: amount, user_id: Number(userId), expense_id: expenseId, category: category
             })
         }).then((response) => {
             if (response.status === 201) {
@@ -77,7 +77,7 @@ export const GetExpenses = () => {
         })
     }
 
-    const handleExpenseApprove = (e, id, amount) => {
+    const handleExpenseApprove = (e, id, amount, category) => {
         e.preventDefault();
         fetch(`${BASE_URL}/expense?id=${id}`, {
             method: 'PUT', headers: {
@@ -95,7 +95,7 @@ export const GetExpenses = () => {
                     }
                     return expense
                 }));
-                createReimbursement(amount, id)
+                createReimbursement(amount, id, category)
             } else {
                 alert("could not approve expense")
             }
@@ -186,7 +186,11 @@ export const GetExpenses = () => {
                 </div>
                 <div className="p-4 bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                     <div className="flex justify-between items-center mb-4">
-                        <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Expenses</h5>
+                        {userId ?
+                            <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Expenses</h5> :
+                            <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Your
+                                Expenses
+                            </h5>}
                         <p className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
                             Amount
                         </p>
@@ -210,9 +214,9 @@ export const GetExpenses = () => {
                                             <span>₹{expense.amount}</span>
                                             <br/>
                                             {(expense.status === "pending") ? <>
-                                                {(currentUser.role === "admin" || currentUser.role === "ca") ? <>
+                                                {((currentUser.role === "admin" || currentUser.role === "ca") && userId !== "") ? <>
                                                     <button className="text-sm text-green-600 hover:underline"
-                                                            onClick={(e) => handleExpenseApprove(e, expense.id, expense.amount)}>Approve
+                                                            onClick={(e) => handleExpenseApprove(e, expense.id, expense.amount, expense.category)}>Approve
                                                     </button>
                                                     <button className="text-sm text-red-600 hover:underline"
                                                             onClick={(e) => handleExpenseReject(e, expense.id)}>Reject

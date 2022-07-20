@@ -6,6 +6,7 @@ import Login from './components/Login';
 import Logout from './components/Logout';
 import {CreateExpense} from "./components/expense/CreateExpense";
 import {GetExpenses} from "./components/expense/GetExpenses";
+import {GetReimbursements} from "./components/reimbursement/GetReimbursements";
 
 export const UserContext = createContext(undefined);
 
@@ -16,6 +17,7 @@ const Routing = ({state}) => {
             <Route path="/logout" element={<Logout/>}/>
             <Route path="/create-expense" element={<CreateExpense/>}/>
             <Route path="/expenses" element={<GetExpenses/>}/>
+            <Route path="/reimbursements" element={<GetReimbursements/>}/>
         </Routes>);
     } else {
         return (<Routes>
