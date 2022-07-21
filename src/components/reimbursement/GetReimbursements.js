@@ -67,6 +67,7 @@ export const GetReimbursements = () => {
         }).then((response) => {
             if (response.status === 204) {
                 setReimbursements([])
+                alert("Reimbursement processed successfully")
             }
         })
     }
