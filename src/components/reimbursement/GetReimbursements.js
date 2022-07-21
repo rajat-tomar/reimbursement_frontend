@@ -49,6 +49,22 @@ export const GetReimbursements = () => {
             })
     }
 
+    const handleProcess = () => {
+        fetch(`${BASE_URL}/reimbursements/process`, {
+            method: 'PUT', headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+            }, body: JSON.stringify({
+                status: "approved", user_id: Number(userId)
+            })
+        }).then((response) => {
+            if (response.status === 204) {
+                setReimbursements([])
+            }
+        })
+    }
+
     useEffect(() => {
         getReimbursements()
     }, [userId])
@@ -108,9 +124,11 @@ export const GetReimbursements = () => {
                                     className="items-center text-base font-semibold text-gray-900 dark:text-white">
                                     <span>₹{total}</span>
                                     <br/>
-                                    <button
-                                        className="font-medium text-blue-600 hover:underline dark:text-blue-500">Process
-                                    </button>
+                                    {((currentUser.role === "admin" || currentUser.role === "ca") && (total > 0)) && (
+                                        <button
+                                            className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                                            onClick={() => handleProcess()}> Process
+                                        </button>)}
                                 </div>
                             </div>
                         </li>
@@ -118,6 +136,5 @@ export const GetReimbursements = () => {
                 </div>
             </div>
         </div>
-
     </>)
 }

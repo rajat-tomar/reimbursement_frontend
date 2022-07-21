@@ -159,12 +159,12 @@ export const GetExpenses = () => {
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 value={category} onChange={(e) => setCategory(e.target.value)}>
                             <option value="">Choose a category</option>
-                            <option>Broadband</option>
-                            <option>Mobile Phone</option>
-                            <option>Learning and Development</option>
                             <option>Fuel/Travel Allowance</option>
+                            <option>Learning and Development</option>
+                            <option>Mobile Phone</option>
+                            <option>Broadband</option>
+                            <option>Project</option>
                             <option>Tech Conferences</option>
-                            <option>Conference related travel and accommodations</option>
                         </select>
                     </>
                     {(currentUser.role === "admin" || currentUser.role === "ca") && <>
@@ -184,18 +184,20 @@ export const GetExpenses = () => {
                 </div>
                 <div className="p-4 bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                     <div className="flex justify-between items-center mb-4">
-                        {userId ?
-                            <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Expenses</h5> :
-                            <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Your
-                                Expenses
-                            </h5>}
-                        <p className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
-                            Amount
-                        </p>
+                        {(expenses?.length > 0) ? (<>
+                            {userId ?
+                                <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Expenses</h5> :
+                                <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Your
+                                    Expenses
+                                </h5>}
+                            <p className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
+                                Amount
+                            </p> </>) : <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">No
+                            Expenses</h5>}
                     </div>
                     <div className="flow-root">
                         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                            {expenses ? expenses.map((expense, index) => {
+                            {(expenses?.length > 0) && expenses.map((expense, index) => {
                                 const date = new Date(expense.expense_date)
                                 return (<li key={index} className="py-3 sm:py-4">
                                     <div className="flex items-center space-x-4">
@@ -231,7 +233,7 @@ export const GetExpenses = () => {
                                         </div>
                                     </div>
                                 </li>)
-                            }) : <li>No expenses found</li>}
+                            })}
                         </ul>
                     </div>
                 </div>
