@@ -11,7 +11,7 @@ export const GetExpenses = () => {
     })
     const currentUser = JSON.parse(localStorage.getItem("user"));
 
-    const handleChange = (e) => {
+    const handleDate = (e) => {
         const value = e.target.value
         setDateRange({...dateRange, [e.target.name]: value})
     }
@@ -141,12 +141,12 @@ export const GetExpenses = () => {
                     <div className="date-range-picker__input">
                         <label htmlFor="start-date">Start Date</label>
                         <input type="date" id="start-date" name="startDate"
-                               onChange={handleChange}/>
+                               onChange={handleDate}/>
                     </div>
                     <div className="w-1/2 date-range-picker__input">
                         <label htmlFor="end-date">End Date</label>
-                        <input type="date" id="end-date" name="endDate" value={dateRange.endDate}
-                               onChange={handleChange}/>
+                        <input type="date" id="end-date" name="endDate"
+                               onChange={handleDate}/>
                     </div>
                 </div>
                 <div className="contents">
@@ -190,9 +190,7 @@ export const GetExpenses = () => {
                                 <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Your
                                     Expenses
                                 </h5>}
-                            <p className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
-                                Amount
-                            </p> </>) : <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">No
+                        </>) : <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">No
                             Expenses</h5>}
                     </div>
                     <div className="flow-root">
