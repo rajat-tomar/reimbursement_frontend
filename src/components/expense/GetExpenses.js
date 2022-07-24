@@ -51,7 +51,8 @@ export const GetExpenses = () => {
         })
     }
 
-    const handleExpenseDelete = (id) => {
+    const handleExpenseDelete = (e, id) => {
+        e.preventDefault();
         fetch(`${BASE_URL}/expense?id=${id}`, {
             method: 'DELETE', headers: {
                 'Content-Type': 'application/json',
@@ -59,6 +60,9 @@ export const GetExpenses = () => {
                 'Authorization': `Bearer ${localStorage.getItem("id_token")}`
             }
         }).then((response) => {
+            if (response.status === 204) {
+                getExpenses()
+            }
         })
     }
 
@@ -221,7 +225,7 @@ export const GetExpenses = () => {
                                                     </button>
                                                 </> : (<button
                                                     className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
-                                                    onClick={() => handleExpenseDelete(expense.id)}>
+                                                    onClick={(e) => handleExpenseDelete(e, expense.id)}>
                                                     Delete
                                                 </button>)}
                                             </> : (<span
