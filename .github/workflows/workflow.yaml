@@ -1,4 +1,4 @@
-name: Reimbursement Frontend
+name: Deploy to Staging
 on:
   push:
     branches: [ main ]
@@ -20,7 +20,7 @@ jobs:
         run: |
           touch .env
           echo "NODE_ENV=production" >> .env
-          echo "REACT_APP_BASE_URL=${{secrets.BACKEND_URL}}" >> .env
+          echo "REACT_APP_BASE_URL=${{secrets.BACKEND_STAGING_URL}}" >> .env
           echo "REACT_APP_GOOGLE_CLIENT_ID=${{secrets.GOOGLE_CLIENT_ID}}" >> .env
 
       - name: Build
@@ -51,7 +51,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
 
       - name: Remove previous build
-        run: ssh -o StrictHostKeyChecking=no reimbursement@${{secrets.FRONTEND_INSTANCE_IP}} "rm -rf reimbursement-fe"
+        run: ssh -o StrictHostKeyChecking=no reimbursement@${{secrets.FRONTEND_STAGING_INSTANCE_IP}} "rm -rf reimbursement-fe"
 
       - name: Deploy production build
-        run: scp -o StrictHostKeyChecking=no -r build reimbursement@${{secrets.FRONTEND_INSTANCE_IP}}:/home/reimbursement/reimbursement-fe
+        run: scp -o StrictHostKeyChecking=no -r build reimbursement@${{secrets.FRONTEND_STAGING_INSTANCE_IP}}:/home/reimbursement/reimbursement-fe
