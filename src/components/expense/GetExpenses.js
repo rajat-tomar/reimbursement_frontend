@@ -194,7 +194,7 @@ export const GetExpenses = () => {
                                 <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Your
                                     Expenses
                                 </h5>}
-                        </>) : <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">No
+                        </>) : <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">No Pending
                             Expenses</h5>}
                     </div>
                     <div className="flow-root">
