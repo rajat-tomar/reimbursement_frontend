@@ -132,7 +132,7 @@ export const GetExpenses = () => {
         if (currentUser.role === "admin" || currentUser.role === "ca") {
             getUsers()
         }
-    }, [])
+    }, [currentUser.role])
 
     useEffect(() => {
         getExpenses()
@@ -203,6 +203,8 @@ export const GetExpenses = () => {
                                 const date = new Date(expense.expense_date)
                                 return (<li key={index} className="py-3 sm:py-4">
                                     <div className="flex items-center space-x-4">
+                                        <a href={expense.image_url} target="_blank"
+                                           className="text-blue-500">Receipt</a>
                                         <div className="flex-1 min-w-0">
                                             <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                                                 {expense.category}
