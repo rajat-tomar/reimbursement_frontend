@@ -114,7 +114,7 @@ export const GetReimbursements = () => {
             </>)}
             <div className="p-4 bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                 <div className="flex justify-between items-center mb-4">
-                    {(dateRange.startDate === "" && dateRange.endDate === "") ? (<>
+                    {(dateRange.startDate === "" || dateRange.endDate === "") ? (<>
                         <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Pending
                             Reimbursements</h5>
                     </>) : (<>
@@ -154,7 +154,7 @@ export const GetReimbursements = () => {
                                     className="items-center text-base font-semibold text-gray-900 dark:text-white">
                                     <span>₹{total}</span>
                                     <br/>
-                                    {((currentUser.role === "admin" || currentUser.role === "ca") && (dateRange.startDate === "" && dateRange.endDate === "") && (total > 0)) && (
+                                    {((currentUser.role === "admin" || currentUser.role === "ca") && (dateRange.startDate === "" && dateRange.endDate === "") && (total > 0) && (userId)) && (
                                         <button
                                             className="font-medium text-blue-600 hover:underline dark:text-blue-500"
                                             onClick={() => handleProcess()}> Process
