@@ -41,7 +41,7 @@ export const CreateExpense = () => {
                 if (data?.url) {
                     setUrl(data.url)
                 } else {
-                    alert("error uploading file")
+                    alert(data?.error?.message)
                 }
                 setLoading(false)
             })
