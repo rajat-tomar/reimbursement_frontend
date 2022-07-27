@@ -55,6 +55,10 @@ export const GetReimbursements = () => {
             })
     }
 
+    const handleGoToPending = () => {
+        setDateRange({startDate: "", endDate: ""})
+    }
+
     const handleProcess = () => {
         fetch(`${BASE_URL}/reimbursements/process`, {
             method: 'PUT', headers: {
@@ -85,84 +89,108 @@ export const GetReimbursements = () => {
     }, [])
 
     return (<>
-        <div className="flex flex-col items-center">
-            <div className="flex date-range-picker">
-                <div className="date-range-picker__input">
-                    <label htmlFor="start-date">Start Date</label>
-                    <input type="date" id="start-date" name="startDate"
-                           onChange={handleDate}/>
-                </div>
-                <div className="w-1/2 date-range-picker__input">
-                    <label htmlFor="end-date">End Date</label>
-                    <input type="date" id="end-date" name="endDate"
-                           onChange={handleDate}/>
-                </div>
-            </div>
-            {(currentUser.role === "admin" || currentUser.role === "ca") && (<>
-                <label htmlFor="users"
-                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Select
-                    a
-                    User</label>
-                <select id="users"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value={userId} onChange={(e) => setUserId(e.target.value)}>
-                    <option value="">Choose a user</option>
-                    {users && users.map((user, index) => {
-                        return <option key={index} value={user.id}>{user.name} - {user.email}</option>
-                    })}
-                </select>
-            </>)}
-            <div className="p-4 bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-                <div className="flex justify-between items-center mb-4">
-                    {(dateRange.startDate === "" || dateRange.endDate === "") ? (<>
-                        <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Pending
-                            Reimbursements</h5>
-                    </>) : (<>
-                        <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Processed
-                            Reimbursements</h5>
-                    </>)}
-                </div>
-                <div className="flow-root">
-                    <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                        {reimbursements?.map((reimbursement, index) => {
-                            const date = new Date(reimbursement.processed_on)
-                            return (<li key={index} className="py-3 sm:py-4">
+        <div className="grid h-screen place-items-center">
+            <div className="w-full max-w-lg">
+                <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                    <div className="flex flex-col items-center">
+                        <div className="flex space-x-8 date-range-picker">
+                            <div className="date-range-picker__input">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                       htmlFor="start-date">Start Date</label>
+                                <input
+                                    className="block w-full text-sm bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 py-3 px-4 mb-3"
+                                    type="date" id="start-date" name="startDate"
+                                    value={dateRange?.startDate}
+                                    onChange={handleDate}/>
+                            </div>
+                            <div className="w-1/2 date-range-picker__input">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                       htmlFor="end-date">End Date</label>
+                                <input
+                                    className="block w-full text-sm bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 py-3 px-4 mb-3"
+                                    type="date" id="end-date" name="endDate"
+                                    value={dateRange?.endDate}
+                                    onChange={handleDate}/>
+                            </div>
+                        </div>
+                        {(currentUser.role === "admin" || currentUser.role === "ca") && (<>
+                            <div className="w-full px-3 mb-6 md:mb-0">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                       htmlFor="user">
+                                    User
+                                </label>
+                                <div className="relative">
+                                    <select
+                                        className="block w-full bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 py-3 px-4 mb-3"
+                                        id="user" value={userId} onChange={(e) => setUserId(e.target.value)}>
+                                        <option value="">select a user</option>
+                                        {users?.map((user) => {
+                                            return <option key={user.id}
+                                                           value={user.id}>{user.name} - {user.email}</option>
+                                        })}
+                                    </select>
+                                </div>
+                            </div>
+                        </>)}
+                    </div>
+                </form>
+                <div
+                    className="p-4 bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                    <div className="flex justify-between items-center mb-4">
+                        {(dateRange.startDate === "" || dateRange.endDate === "") ? (<>
+                            <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Pending
+                                Reimbursements</h5>
+                        </>) : (<>
+                            <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Processed
+                                Reimbursements</h5>
+                            <button className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
+                                    onClick={() => handleGoToPending()}>
+                                Go to pending
+                            </button>
+                        </>)}
+                    </div>
+                    <div className="flow-root">
+                        <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+                            {reimbursements?.map((reimbursement, index) => {
+                                const date = new Date(reimbursement.processed_on)
+                                return (<li key={index} className="py-3 sm:py-4">
+                                    <div className="flex items-center space-x-4">
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                {reimbursement.category}
+                                            </p>
+                                            {reimbursement.status === "approved" && (<>
+                                                <p className="text-sm text-gray-500 truncate dark:text-gray-400">
+                                                    {date.toDateString()}
+                                                </p>
+                                            </>)}
+                                        </div>
+                                        <div
+                                            className="items-center text-base font-semibold text-gray-900 dark:text-white">
+                                            <span>₹{reimbursement.amount}</span>
+                                        </div>
+                                    </div>
+                                </li>)
+                            })}
+                            <li className="py-3 sm:py-4">
                                 <div className="flex items-center space-x-4">
                                     <div className="flex-1 min-w-0">
-                                        <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                            {reimbursement.category}
-                                        </p>
-                                        {reimbursement.status === "approved" && (<>
-                                            <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                                                {date.toDateString()}
-                                            </p>
-                                        </>)}
+                                        <p className="text-xl font-bold leading-none text-gray-900 dark:text-white">Total</p>
                                     </div>
                                     <div
                                         className="items-center text-base font-semibold text-gray-900 dark:text-white">
-                                        <span>₹{reimbursement.amount}</span>
+                                        <span>₹{total}</span>
+                                        <br/>
+                                        {((currentUser.role === "admin" || currentUser.role === "ca") && (dateRange.startDate === "" && dateRange.endDate === "") && (total > 0) && (userId)) && (
+                                            <button
+                                                className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                                                onClick={() => handleProcess()}> Process
+                                            </button>)}
                                     </div>
                                 </div>
-                            </li>)
-                        })}
-                        <li className="py-3 sm:py-4">
-                            <div className="flex items-center space-x-4">
-                                <div className="flex-1 min-w-0">
-                                    <p className="text-xl font-bold leading-none text-gray-900 dark:text-white">Total</p>
-                                </div>
-                                <div
-                                    className="items-center text-base font-semibold text-gray-900 dark:text-white">
-                                    <span>₹{total}</span>
-                                    <br/>
-                                    {((currentUser.role === "admin" || currentUser.role === "ca") && (dateRange.startDate === "" && dateRange.endDate === "") && (total > 0) && (userId)) && (
-                                        <button
-                                            className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                                            onClick={() => handleProcess()}> Process
-                                        </button>)}
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
