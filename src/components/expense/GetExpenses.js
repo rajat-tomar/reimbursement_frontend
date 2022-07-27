@@ -143,16 +143,16 @@ export const GetExpenses = () => {
             <div className="w-full max-w-lg">
                 <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <div className="flex flex-col items-center">
-                        <div className="flex date-range-picker">
+                        <div className="flex space-x-8 date-range-picker">
                             <div className="date-range-picker__input">
-                                <label htmlFor="start-date">Start Date</label>
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="start-date">Start Date</label>
                                 <input
                                     className="block w-full text-sm bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 py-3 px-4 mb-3"
                                     type="date" id="start-date" name="startDate"
                                     onChange={handleDate}/>
                             </div>
                             <div className="w-1/2 date-range-picker__input">
-                                <label htmlFor="end-date">End Date</label>
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="end-date">End Date</label>
                                 <input
                                     className="block w-full text-sm bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 py-3 px-4 mb-3"
                                     type="date" id="end-date" name="endDate"
@@ -257,7 +257,6 @@ export const GetExpenses = () => {
                         </ul>
                     </div>
                 </div>
-
             </div>
         </div>
     </>)
