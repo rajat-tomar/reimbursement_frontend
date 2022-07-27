@@ -90,15 +90,17 @@ export const CreateExpense = () => {
         <div className="grid h-screen place-items-center">
             <div className="w-full max-w-lg">
                 <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                    <div className="w-full  px-3 mb-6 md:mb-0">
+                    <div className="w-full px-3 mb-6 md:mb-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                htmlFor="amount">
                             Amount
                         </label>
-                        <input
-                            className="block w-full bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 py-3 px-4 mb-3"
-                            id="amount" type="text" value={amount} placeholder="Amount"
-                            onChange={(e) => setAmount(e.target.value)}/>
+                        <div className="relative">
+                            <input
+                                className="block w-full bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 py-3 px-4 mb-3"
+                                id="amount" type="text" value={amount} placeholder="Amount"
+                                onChange={(e) => setAmount(e.target.value)}/>
+                        </div>
                     </div>
                     <div className="w-full px-3 mb-6 md:mb-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
