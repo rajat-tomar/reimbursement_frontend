@@ -16,7 +16,7 @@ export const GetExpenses = () => {
             method: 'GET', headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         }).then((response) => response.json())
             .then((data) => {
@@ -37,7 +37,7 @@ export const GetExpenses = () => {
             method: 'PUT', headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             }, body: JSON.stringify({
                 status: "approved"
             })
@@ -62,7 +62,7 @@ export const GetExpenses = () => {
             method: 'DELETE', headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         }).then((response) => {
             if (response.status === 204) {
@@ -77,7 +77,7 @@ export const GetExpenses = () => {
             method: 'PUT', headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             }, body: JSON.stringify({
                 status: "rejected"
             })
@@ -98,7 +98,7 @@ export const GetExpenses = () => {
             method: 'GET', headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         }).then((response) => {
             if (response.status === 200) {
@@ -118,7 +118,7 @@ export const GetExpenses = () => {
             method: 'POST', headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             }, body: JSON.stringify({
                 amount: amount, user_id: Number(userId), expense_id: expenseId, category: category
             })
@@ -145,14 +145,16 @@ export const GetExpenses = () => {
                     <div className="flex flex-col items-center">
                         <div className="flex space-x-8 date-range-picker">
                             <div className="date-range-picker__input">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="start-date">Start Date</label>
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                       htmlFor="start-date">Start Date</label>
                                 <input
                                     className="block w-full text-sm bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 py-3 px-4 mb-3"
                                     type="date" id="start-date" name="startDate"
                                     onChange={handleDate}/>
                             </div>
                             <div className="w-1/2 date-range-picker__input">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="end-date">End Date</label>
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                       htmlFor="end-date">End Date</label>
                                 <input
                                     className="block w-full text-sm bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 py-3 px-4 mb-3"
                                     type="date" id="end-date" name="endDate"

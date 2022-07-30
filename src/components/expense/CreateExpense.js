@@ -60,7 +60,7 @@ export const CreateExpense = () => {
             method: 'POST', headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             }, body: JSON.stringify({
                 amount: Number(amount), expense_date: date, category: category, image_url: url
             })
@@ -135,7 +135,7 @@ export const CreateExpense = () => {
                         </div>
                     </div>
                     <div className="w-full px-3 mb-6 md:mb-0">
-                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                htmlFor="file_input">Bill</label>
                         <input
                             className="block w-full text-sm bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 py-3 px-4 mb-3"

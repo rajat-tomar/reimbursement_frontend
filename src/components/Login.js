@@ -24,7 +24,7 @@ const Login = () => {
     });
 
     const loginUser = (userCredential) => {
-        let userObject = jwt_decode(userCredential)
+        const userObject = jwt_decode(userCredential)
         const options = {
             method: "POST", headers: {
                 "Content-Type": "application/json",
@@ -33,19 +33,13 @@ const Login = () => {
             }
         }
         fetch(`${BASE_URL}/login`, options)
-            .then((response) => {
-                if (response.status === 200) {
-                    localStorage.setItem("id_token", userCredential);
-                    return response.json();
-                } else {
-                    throw new Error("Failed to login user");
-                }
-            })
+            .then((response) => (response.json()))
             .then((data) => {
                 const user = {
-                    "name": userObject?.name, "email": userObject?.email, "role": data
+                    "name": userObject?.name, "email": userObject?.email, "role": data?.role
                 }
                 localStorage.setItem("user", JSON.stringify(user));
+                localStorage.setItem("token", data?.token);
                 dispatch({type: "USER", payload: true})
             })
     }

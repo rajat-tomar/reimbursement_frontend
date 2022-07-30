@@ -21,7 +21,7 @@ export const GetReimbursements = () => {
             method: 'GET', headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         }).then((response) => {
             if (response.status === 200) {
@@ -45,7 +45,7 @@ export const GetReimbursements = () => {
             method: 'GET', headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         }).then((response) => response.json())
             .then((data) => {
@@ -64,7 +64,7 @@ export const GetReimbursements = () => {
             method: 'PUT', headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             }, body: JSON.stringify({
                 status: "approved", user_id: Number(userId)
             })
